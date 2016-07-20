@@ -1,0 +1,21 @@
+name: ServerHelper
+main: serverhelper.Main
+version: 1.0.0
+api: ["1.0.0"]
+author: maru
+
+commands:
+ opengui:
+  usage: /opengui
+  description: Open gui to server setting
+  permmision: serverhelper.commands.opengui
+  
+permissions:
+ serverhelper.*:
+  default: false
+  children:
+   serverhelper.commands.*:
+    default: false
+    children:
+     serverhelper.commands.opengui:
+      default: false
