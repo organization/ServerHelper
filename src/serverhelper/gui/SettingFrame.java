@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+import cn.nukkit.Player;
 import cn.nukkit.Server;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
@@ -86,6 +87,12 @@ public class SettingFrame extends JFrame {
 		acheiveBtnGroup.add(achievementOnBtn);
 		acheiveBtnGroup.add(achievementOffBtn);
 		
+		if (Server.getInstance().getPropertyBoolean("announce-player-achievements")) {
+			achievementOnBtn.setSelected(true);
+		} else {
+			achievementOffBtn.setSelected(false);
+		} 
+		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(12, 229, 276, 2);
 		panel.add(separator_1);
@@ -98,6 +105,7 @@ public class SettingFrame extends JFrame {
 		spawnProtectionField.setBounds(12, 266, 76, 21);
 		panel.add(spawnProtectionField);
 		spawnProtectionField.setColumns(10);
+		spawnProtectionField.setText(Server.getInstance().getPropertyString("spawn-protection"));
 		
 		JButton btnProtectionApply = new JButton("적용");
 		btnProtectionApply.setBounds(100, 265, 63, 23);
@@ -115,6 +123,7 @@ public class SettingFrame extends JFrame {
 		maxPlayerField.setBounds(12, 334, 76, 21);
 		panel.add(maxPlayerField);
 		maxPlayerField.setColumns(10);
+		maxPlayerField.setText(String.valueOf(Server.getInstance().getMaxPlayers()));
 		
 		JButton maxPlayerApplybutton = new JButton("적용");
 		maxPlayerApplybutton.setBounds(100, 334, 63, 23);
@@ -137,6 +146,12 @@ public class SettingFrame extends JFrame {
 		flyPanel.add(flyAllowBtn);
 		flyPanel.add(flyDisallowBtn);
 		panel.add(flyPanel);
+		
+		if (Server.getInstance().getAllowFlight()) {
+			flyAllowBtn.setSelected(true);
+		} else {
+			flyDisallowBtn.setSelected(true);
+		}
 		
 		ButtonGroup flyBtnGroup = new ButtonGroup();
 		flyBtnGroup.add(flyAllowBtn);
@@ -189,6 +204,15 @@ public class SettingFrame extends JFrame {
 		gmBtnGroup.add(adventureBtn);
 		gmBtnGroup.add(spectatorBtn);
 		
+		int defaultGamemode = Server.getInstance().getDefaultGamemode();
+		if (defaultGamemode == Player.SURVIVAL) {
+			survivalBtn.setSelected(true);
+		} else if (defaultGamemode == Player.CREATIVE) {
+			creativeBtn.setSelected(true);
+		} else if (defaultGamemode == Player.SPECTATOR) {
+			spectatorBtn.setSelected(true);
+		}
+		
 		gmPanel.add(survivalBtn);
 		gmPanel.add(creativeBtn);
 		gmPanel.add(adventureBtn);
@@ -234,8 +258,8 @@ public class SettingFrame extends JFrame {
 		getContentPane().add(scroll);
 		
 		
-		whitelistOn.addActionListener(e -> Server.getInstance().setPropertyBoolean("whitelist", true));
-		whitelistOff.addActionListener(e -> Server.getInstance().setPropertyBoolean("whitelist", false));
+		whitelistOn.addActionListener(e -> Server.getInstance().setPropertyBoolean("white-list", true));
+		whitelistOff.addActionListener(e -> Server.getInstance().setPropertyBoolean("white-list", false));
 		whitelistAddBtn.addActionListener(e -> {
 			Server.getInstance().addWhitelist(whitelistPlayerField.getText());
 			JOptionPane.showMessageDialog(null, whitelistPlayerField.getText() + "를 화이트리스트에 추가했습니다.");
@@ -258,7 +282,27 @@ public class SettingFrame extends JFrame {
 			Server.getInstance().getWhitelist().getAll().keySet().parallelStream().forEach(value -> msg.append(value + "\n"));
 			JOptionPane.showMessageDialog(null, msg);
 		});
-		//TODO Not complete add EventHandler
+		achievementOnBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("announce-player-achievements", true));
+		achievementOffBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("announce-player-achievements", false));
+		btnProtectionApply.addActionListener(e -> {
+			try {
+				int protection = Integer.parseInt(spawnProtectionField.getText());
+				Server.getInstance().setPropertyInt("spawn-protection", protection);
+				JOptionPane.showMessageDialog(null, "스폰 보호 범위를 " + protection + "으로 설정했습니다.");
+			} catch (NumberFormatException exception) {
+				JOptionPane.showMessageDialog(null, "범위는 정수만 입력 가능합니다.", "에러", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		maxPlayerApplybutton.addActionListener(e -> {
+			try {
+				int maxPlayers = Integer.parseInt(maxPlayerField.getText());
+				
+			} catch (NumberFormatException exception) {
+				
+			}
+		});
+		flyAllowBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("allow-flight", true));
+		//TODO add more EventHandler
 		
 
 		setVisible(true);
