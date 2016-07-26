@@ -3,6 +3,7 @@ package serverhelper.gui;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.util.function.BiConsumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -15,6 +16,9 @@ import javax.swing.JRadioButton;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
+import cn.nukkit.event.TranslationContainer;
+import cn.nukkit.utils.TextFormat;
+
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -211,6 +215,8 @@ public class SettingFrame extends JFrame {
 			creativeBtn.setSelected(true);
 		} else if (defaultGamemode == Player.SPECTATOR) {
 			spectatorBtn.setSelected(true);
+		} else if (defaultGamemode == Player.ADVENTURE) {
+			adventureBtn.setSelected(true);
 		}
 		
 		gmPanel.add(survivalBtn);
@@ -238,6 +244,12 @@ public class SettingFrame extends JFrame {
 		pvpBtnGroup.add(pvpOnBtn);
 		pvpBtnGroup.add(pvpOffBtn);
 		
+		if (Server.getInstance().getPropertyString("pvp").equals("on")) {
+			pvpOnBtn.setSelected(true);
+		} else {
+			pvpOffBtn.setSelected(true);
+		}
+		
 		pvpPanel.add(pvpOnBtn);
 		pvpPanel.add(pvpOffBtn);
 		
@@ -254,6 +266,10 @@ public class SettingFrame extends JFrame {
 		JButton btnPlayerManage = new JButton("플레이어 관리");
 		btnPlayerManage.setBounds(12, 727, 131, 23);
 		panel.add(btnPlayerManage);
+		
+		JButton btnSendmessage = new JButton("메세지 보내기");
+		btnSendmessage.setBounds(12, 760, 131, 23);
+		panel.add(btnSendmessage);
 		
 		getContentPane().add(scroll);
 		
@@ -296,13 +312,32 @@ public class SettingFrame extends JFrame {
 		maxPlayerApplybutton.addActionListener(e -> {
 			try {
 				int maxPlayers = Integer.parseInt(maxPlayerField.getText());
-				
+				Server.getInstance().setPropertyInt("max-players", maxPlayers);
+				JOptionPane.showMessageDialog(null, "최대 플레이어를 "+ maxPlayers + "로 설정했습니다.");
 			} catch (NumberFormatException exception) {
-				
+				JOptionPane.showMessageDialog(null, "정수만 입력 가능합니다.", "에러", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		flyAllowBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("allow-flight", true));
-		//TODO add more EventHandler
+		flyDisallowBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("allow-flight", false));
+		survivalBtn.addActionListener(e -> Server.getInstance().setPropertyInt("gamemode", Player.SURVIVAL));
+		creativeBtn.addActionListener(e -> Server.getInstance().setPropertyInt("gamemode", Player.CREATIVE));
+		adventureBtn.addActionListener(e -> Server.getInstance().setPropertyInt("gamemode", Player.ADVENTURE));
+		spectatorBtn.addActionListener(e -> Server.getInstance().setPropertyInt("gamemode", Player.SPECTATOR));
+		pvpOnBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("pvp", true));
+		pvpOffBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("gamemode", false));
+		btnPlayerlist.addActionListener(event -> {
+			StringBuffer playerlist = new StringBuffer("");
+			Server.getInstance().getOnlinePlayers().forEach((uuid, player) -> playerlist.append(player.getName() + "\n"));
+			JOptionPane.showMessageDialog(null, playerlist);
+		});
+		btnPlayerManage.addActionListener(event -> {
+			
+		});
+		btnSendmessage.addActionListener(event -> {
+			String msg = JOptionPane.showInputDialog("서버원들에게 할 말을 입력하세요.");
+			Server.getInstance().broadcastMessage(new TranslationContainer(TextFormat.LIGHT_PURPLE + "%chat.type.announcement", new String[]{"서버", msg}));
+		});
 		
 
 		setVisible(true);
