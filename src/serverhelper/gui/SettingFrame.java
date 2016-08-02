@@ -102,7 +102,7 @@ public class SettingFrame extends JFrame {
 		panel.add(separator_1);
 		
 		JLabel lblSpawn = new JLabel("스폰보호 범위");
-		lblSpawn.setBounds(12, 241, 76, 15);
+		lblSpawn.setBounds(12, 241, 83, 15);
 		panel.add(lblSpawn);
 		
 		spawnProtectionField = new JTextField();
@@ -120,7 +120,7 @@ public class SettingFrame extends JFrame {
 		panel.add(separator_2);
 		
 		JLabel lblPlayer = new JLabel("최대 플레이어 수");
-		lblPlayer.setBounds(12, 309, 94, 15);
+		lblPlayer.setBounds(12, 309, 105, 15);
 		panel.add(lblPlayer);
 		
 		maxPlayerField = new JTextField();
@@ -244,7 +244,7 @@ public class SettingFrame extends JFrame {
 		pvpBtnGroup.add(pvpOnBtn);
 		pvpBtnGroup.add(pvpOffBtn);
 		
-		if (Server.getInstance().getPropertyString("pvp").equals("on")) {
+		if (Server.getInstance().getPropertyBoolean("pvp") == true) {
 			pvpOnBtn.setSelected(true);
 		} else {
 			pvpOffBtn.setSelected(true);
@@ -282,7 +282,7 @@ public class SettingFrame extends JFrame {
 		});
 		whitelistRmBtn.addActionListener(e -> {
 			Server.getInstance().removeWhitelist(whitelistPlayerField.getText());
-			JOptionPane.showMessageDialog(null, whitelistPlayerField.getText() + "를 화이트리스트에 추가했습니다.");
+			JOptionPane.showMessageDialog(null, whitelistPlayerField.getText() + "를 화이트리스트에서 제거했습니다.");
 		});
 		whitelistResetBtn.addActionListener(e -> {
 			int result = JOptionPane.showConfirmDialog(null, "정말로 화이트리스트를 초기화하시겠습니까?");
@@ -332,16 +332,26 @@ public class SettingFrame extends JFrame {
 			JOptionPane.showMessageDialog(null, playerlist);
 		});
 		btnPlayerManage.addActionListener(event -> {
-			
+			String name = JOptionPane.showInputDialog(null, "관리할 플레이어명 입력");
+			if (name == null) {
+				return;
+			}
+			Player player = Server.getInstance().getPlayer(name);
+			if (player == null) {
+				JOptionPane.showMessageDialog(null, "이 플레이어는 서버에 접속중이 아닙니다.", "에러", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			PlayerManageDialog dialog = new PlayerManageDialog(player);
+			dialog.setVisible(true);
 		});
 		btnSendmessage.addActionListener(event -> {
 			String msg = JOptionPane.showInputDialog("서버원들에게 할 말을 입력하세요.");
+			if (msg == null) msg = "";
 			Server.getInstance().broadcastMessage(new TranslationContainer(TextFormat.LIGHT_PURPLE + "%chat.type.announcement", new String[]{"서버", msg}));
 		});
 		
 
 		setVisible(true);
 		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
