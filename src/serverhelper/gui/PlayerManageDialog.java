@@ -3,7 +3,6 @@ package serverhelper.gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-import javax.print.attribute.standard.JobMessageFromOperator;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -12,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
-import cn.nukkit.event.TranslationContainer;
+import cn.nukkit.lang.TranslationContainer;
 import cn.nukkit.utils.TextFormat;
 
 public class PlayerManageDialog extends JDialog {
@@ -24,33 +23,33 @@ public class PlayerManageDialog extends JDialog {
 	 */
 	public PlayerManageDialog(Player player) {
 		setBounds(100, 100, 187, 219);
-		setTitle(player.getName() + "°ü¸®");
+		setTitle(player.getName() + "ê´€ë¦¬");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(null);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JButton btnBan = new JButton("¹ê");
+		JButton btnBan = new JButton("ë°´");
 		btnBan.setBounds(12, 10, 69, 23);
 		contentPanel.add(btnBan);
 		btnBan.addActionListener(event -> {
-			int kind = JOptionPane.showOptionDialog(null, "¹ê Á¾·ù ¼±ÅÃ", "¾Ë¸²", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"´Ð³×ÀÓ¹ê", "¾ÆÀÌÇÇ¹ê"}, "´Ð³×ÀÓ¹ê");
+			int kind = JOptionPane.showOptionDialog(null, "ë°´ ì¢…ë¥˜ ì„ íƒ", "ì•Œë¦¼", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"ë‹‰ë„¤ìž„ë°´", "ì•„ì´í”¼ë°´"}, "ë‹‰ë„¤ìž„ë°´");
 			if (kind == JOptionPane.YES_OPTION) {
 				player.setBanned(true);
-				JOptionPane.showMessageDialog(null, player.getName() + "À» ´Ð³×ÀÓ¹ê Çß½À´Ï´Ù.");
+				JOptionPane.showMessageDialog(null, player.getName() + "ì„ ë‹‰ë„¤ìž„ë°´ í–ˆìŠµë‹ˆë‹¤.");
 			} else if (kind == JOptionPane.NO_OPTION) {
 				Server.getInstance().getIPBans().addBan(player.getName());
-				JOptionPane.showMessageDialog(null, player.getName() + "À» ¾ÆÀÌÇÇ¹ê Çß½À´Ï´Ù.");
+				JOptionPane.showMessageDialog(null, player.getName() + "ì„ ì•„ì´í”¼ë°´ í–ˆìŠµë‹ˆë‹¤.");
 			}
 		});
 		{
-			JButton btnUnban = new JButton("¹êÇØÁ¦");
+			JButton btnUnban = new JButton("ë°´í•´ì œ");
 			btnUnban.setBounds(86, 10, 69, 23);
 			contentPanel.add(btnUnban);
 			btnUnban.addActionListener(event -> {
 				player.setBanned(false);
 				Server.getInstance().getIPBans().remove(player.getName());
-				JOptionPane.showMessageDialog(null, player.getName() + "ÀÇ ¹êÀ» ÇØÁ¦Çß½À´Ï´Ù.");
+				JOptionPane.showMessageDialog(null, player.getName() + "ì˜ ë°´ì„ í•´ì œí–ˆìŠµë‹ˆë‹¤.");
 			});
 		}
 		{
@@ -67,39 +66,39 @@ public class PlayerManageDialog extends JDialog {
 			btnTpall.setBounds(86, 43, 69, 23);
 			contentPanel.add(btnTpall);
 			btnTpall.addActionListener(event -> {
-				if (JOptionPane.showConfirmDialog(null, "Á¤¸»·Î ¸ðµç ÇÃ·¹ÀÌ¾î¸¦ ÀÌ ÇÃ·¹ÀÌ¾î¿¡°Ô ÀÌµ¿½ÃÅ°°Ú½À´Ï±î?", "¾È³»", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				if (JOptionPane.showConfirmDialog(null, "ì •ë§ë¡œ ëª¨ë“  í”Œë ˆì´ì–´ë¥¼ ì´ í”Œë ˆì´ì–´ì—ê²Œ ì´ë™ì‹œí‚¤ê² ìŠµë‹ˆê¹Œ?", "ì•ˆë‚´", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					for (Player target : Server.getInstance().getOnlinePlayers().values()) {
 						target.teleport(player);
 					}
-					JOptionPane.showMessageDialog(null, "¸ðµç ÇÃ·¹ÀÌ¾î¸¦ " + player.getName() + "¿¡°Ô ÀÌµ¿½ÃÄ×½À´Ï´Ù.");
+					JOptionPane.showMessageDialog(null, "ëª¨ë“  í”Œë ˆì´ì–´ë¥¼ " + player.getName() + "ì—ê²Œ ì´ë™ì‹œì¼°ìŠµë‹ˆë‹¤.");
 				}
 			});
 		}
 		{
-			JButton btnKick = new JButton("Ãß¹æ");
+			JButton btnKick = new JButton("ì¶”ë°©");
 			btnKick.setBounds(12, 76, 69, 23);
 			contentPanel.add(btnKick);
 			btnKick.addActionListener(event -> {
-				String reason = JOptionPane.showInputDialog("ÀÌÀ¯");
+				String reason = JOptionPane.showInputDialog("ì´ìœ ");
 				player.kick(reason);
 			});
 		}
 		{
-			JButton btnKill = new JButton("Á×ÀÌ±â");
+			JButton btnKill = new JButton("ì£½ì´ê¸°");
 			btnKill.setBounds(86, 76, 69, 23);
 			contentPanel.add(btnKill);
 			btnKill.addActionListener(event -> {
 				player.kill();
-				JOptionPane.showMessageDialog(null, player.getName() + "À» Á×¿´½À´Ï´Ù.");
+				JOptionPane.showMessageDialog(null, player.getName() + "ì„ ì£½ì˜€ìŠµë‹ˆë‹¤.");
 			});
 		}
 		{
-			JButton btnSendmessage = new JButton("¸Þ¼¼Áö º¸³»±â");
+			JButton btnSendmessage = new JButton("ë©”ì„¸ì§€ ë³´ë‚´ê¸°");
 			btnSendmessage.setBounds(12, 109, 143, 23);
 			contentPanel.add(btnSendmessage);
 			btnSendmessage.addActionListener(event -> {
-				String msg = JOptionPane.showInputDialog("º¸³¾ ¸Þ¼¼Áö ÀÔ·Â");
-				player.sendMessage(new TranslationContainer(TextFormat.LIGHT_PURPLE + "%chat.type.announcement", new String[]{"¼­¹ö", msg}));
+				String msg = JOptionPane.showInputDialog("ë³´ë‚¼ ë©”ì„¸ì§€ ìž…ë ¥");
+				player.sendMessage(new TranslationContainer(TextFormat.LIGHT_PURPLE + "%chat.type.announcement", new String[]{"ì„œë²„", msg}));
 			});
 		}
 		{

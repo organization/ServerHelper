@@ -3,7 +3,6 @@ package serverhelper.gui;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.util.function.BiConsumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -16,7 +15,7 @@ import javax.swing.JRadioButton;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
-import cn.nukkit.event.TranslationContainer;
+import cn.nukkit.lang.TranslationContainer;
 import cn.nukkit.utils.TextFormat;
 
 import javax.swing.JButton;
@@ -33,181 +32,181 @@ public class SettingFrame extends JFrame {
 		setTitle("Server Helper");
 		JPanel panel = new JPanel();
 		JScrollPane scroll = new JScrollPane(panel);
-		
+
 		setIconImage(Toolkit.getDefaultToolkit().getImage("settings.png"));
 
 		panel.setLayout(null);
 		panel.setPreferredSize(new Dimension(300, 800));
-		
+
 		Border whitelistBorder = BorderFactory.createEtchedBorder();
-		whitelistBorder = BorderFactory.createTitledBorder(whitelistBorder, "È­ÀÌÆ®¸®½ºÆ®");
+		whitelistBorder = BorderFactory.createTitledBorder(whitelistBorder, "í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸");
 		JPanel wlBorderPanel = new JPanel();
 		wlBorderPanel.setLayout(new GridLayout(0, 1));
 		wlBorderPanel.setBorder(whitelistBorder);
 		wlBorderPanel.setBounds(12, 10, 94, 61);
-		
-		JRadioButton whitelistOn = new JRadioButton("ÄÑ±â");
+
+		JRadioButton whitelistOn = new JRadioButton("ì¼œê¸°");
 		wlBorderPanel.add(whitelistOn);
-		
-		JRadioButton whitelistOff = new JRadioButton("²ô±â");
+
+		JRadioButton whitelistOff = new JRadioButton("ë„ê¸°");
 		wlBorderPanel.add(whitelistOff);
-		
+
 		panel.add(wlBorderPanel);
-		
+
 		ButtonGroup whitelistGroup = new ButtonGroup();
 		whitelistGroup.add(whitelistOn);
 		whitelistGroup.add(whitelistOff);
-		
+
 		if (Server.getInstance().hasWhitelist()) {
 			whitelistOn.setSelected(true);
 		} else {
 			whitelistOff.setSelected(false);
 		}
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(12, 138, 276, 2);
 		panel.add(separator);
-		
+
 		Border achieveBorder = BorderFactory.createEtchedBorder();
-		achieveBorder = BorderFactory.createTitledBorder(achieveBorder, "µµÀü°úÁ¦");
+		achieveBorder = BorderFactory.createTitledBorder(achieveBorder, "ë„ì „ê³¼ì œ");
 		JPanel achievePanel = new JPanel();
 		achievePanel.setLayout(new GridLayout(0, 1));
 		achievePanel.setBorder(achieveBorder);
 		achievePanel.setBounds(12, 150, 105, 69);
-		
-		JRadioButton achievementOnBtn = new JRadioButton("ÄÑ±â");
+
+		JRadioButton achievementOnBtn = new JRadioButton("ì¼œê¸°");
 		achievementOnBtn.setBounds(12, 244, 49, 23);
 		achievePanel.add(achievementOnBtn);
-		
-		JRadioButton achievementOffBtn = new JRadioButton("²ô±â");
+
+		JRadioButton achievementOffBtn = new JRadioButton("ë„ê¸°");
 		achievementOffBtn.setBounds(65, 244, 121, 23);
 		achievePanel.add(achievementOffBtn);
-		
+
 		achievePanel.add(achievementOnBtn);
 		achievePanel.add(achievementOffBtn);
 		panel.add(achievePanel);
-		
+
 		ButtonGroup acheiveBtnGroup = new ButtonGroup();
 		acheiveBtnGroup.add(achievementOnBtn);
 		acheiveBtnGroup.add(achievementOffBtn);
-		
+
 		if (Server.getInstance().getPropertyBoolean("announce-player-achievements")) {
 			achievementOnBtn.setSelected(true);
 		} else {
 			achievementOffBtn.setSelected(false);
-		} 
-		
+		}
+
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(12, 229, 276, 2);
 		panel.add(separator_1);
-		
-		JLabel lblSpawn = new JLabel("½ºÆùº¸È£ ¹üÀ§");
+
+		JLabel lblSpawn = new JLabel("ìŠ¤í°ë³´í˜¸ ë²”ìœ„");
 		lblSpawn.setBounds(12, 241, 83, 15);
 		panel.add(lblSpawn);
-		
+
 		spawnProtectionField = new JTextField();
 		spawnProtectionField.setBounds(12, 266, 76, 21);
 		panel.add(spawnProtectionField);
 		spawnProtectionField.setColumns(10);
 		spawnProtectionField.setText(Server.getInstance().getPropertyString("spawn-protection"));
-		
-		JButton btnProtectionApply = new JButton("Àû¿ë");
+
+		JButton btnProtectionApply = new JButton("ì ìš©");
 		btnProtectionApply.setBounds(100, 265, 63, 23);
 		panel.add(btnProtectionApply);
-		
+
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBounds(12, 297, 276, 2);
 		panel.add(separator_2);
-		
-		JLabel lblPlayer = new JLabel("ÃÖ´ë ÇÃ·¹ÀÌ¾î ¼ö");
+
+		JLabel lblPlayer = new JLabel("ìµœëŒ€ í”Œë ˆì´ì–´ ìˆ˜");
 		lblPlayer.setBounds(12, 309, 105, 15);
 		panel.add(lblPlayer);
-		
+
 		maxPlayerField = new JTextField();
 		maxPlayerField.setBounds(12, 334, 76, 21);
 		panel.add(maxPlayerField);
 		maxPlayerField.setColumns(10);
 		maxPlayerField.setText(String.valueOf(Server.getInstance().getMaxPlayers()));
-		
-		JButton maxPlayerApplybutton = new JButton("Àû¿ë");
+
+		JButton maxPlayerApplybutton = new JButton("ì ìš©");
 		maxPlayerApplybutton.setBounds(100, 334, 63, 23);
 		panel.add(maxPlayerApplybutton);
-		
+
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setBounds(12, 365, 276, 2);
 		panel.add(separator_3);
-		
+
 		Border flyBorder = BorderFactory.createEtchedBorder();
-		flyBorder = BorderFactory.createTitledBorder(flyBorder, "³¯±â");
+		flyBorder = BorderFactory.createTitledBorder(flyBorder, "ë‚ ê¸°");
 		JPanel flyPanel = new JPanel();
 		flyPanel.setLayout(new GridLayout(0, 1));
 		flyPanel.setBorder(flyBorder);
 		flyPanel.setBounds(12, 377, 105, 69);
-		
-		JRadioButton flyAllowBtn = new JRadioButton("Çã¿ë");
-		JRadioButton flyDisallowBtn = new JRadioButton("ºñÇã¿ë");
-		
+
+		JRadioButton flyAllowBtn = new JRadioButton("í—ˆìš©");
+		JRadioButton flyDisallowBtn = new JRadioButton("ë¹„í—ˆìš©");
+
 		flyPanel.add(flyAllowBtn);
 		flyPanel.add(flyDisallowBtn);
 		panel.add(flyPanel);
-		
+
 		if (Server.getInstance().getAllowFlight()) {
 			flyAllowBtn.setSelected(true);
 		} else {
 			flyDisallowBtn.setSelected(true);
 		}
-		
+
 		ButtonGroup flyBtnGroup = new ButtonGroup();
 		flyBtnGroup.add(flyAllowBtn);
 		flyBtnGroup.add(flyDisallowBtn);
-		
+
 		JSeparator separator_4 = new JSeparator();
 		separator_4.setBounds(12, 456, 276, 2);
 		panel.add(separator_4);
-		
+
 		whitelistPlayerField = new JTextField();
 		whitelistPlayerField.setBounds(92, 78, 116, 21);
 		panel.add(whitelistPlayerField);
 		whitelistPlayerField.setColumns(10);
-		
-		JLabel lblPlayername = new JLabel("ÇÃ·¹ÀÌ¾î ¸í :");
+
+		JLabel lblPlayername = new JLabel("í”Œë ˆì´ì–´ ëª… :");
 		lblPlayername.setBounds(12, 81, 76, 15);
 		panel.add(lblPlayername);
-		
-		JButton whitelistAddBtn = new JButton("Ãß°¡");
+
+		JButton whitelistAddBtn = new JButton("ì¶”ê°€");
 		whitelistAddBtn.setBounds(12, 105, 63, 23);
 		panel.add(whitelistAddBtn);
-		
-		JButton whitelistRmBtn = new JButton("Á¦°Å");
+
+		JButton whitelistRmBtn = new JButton("ì œê±°");
 		whitelistRmBtn.setBounds(80, 105, 63, 23);
 		panel.add(whitelistRmBtn);
-		
-		JButton whitelistResetBtn = new JButton("ÃÊ±âÈ­");
+
+		JButton whitelistResetBtn = new JButton("ì´ˆê¸°í™”");
 		whitelistResetBtn.setBounds(147, 105, 76, 23);
 		panel.add(whitelistResetBtn);
-		
-		JButton whitelistBtn = new JButton("¸ñ·Ï");
+
+		JButton whitelistBtn = new JButton("ëª©ë¡");
 		whitelistBtn.setBounds(225, 105, 63, 23);
 		panel.add(whitelistBtn);
-		
+
 		Border gmBorder = BorderFactory.createEtchedBorder();
-		gmBorder = BorderFactory.createTitledBorder(gmBorder, "±âº» °ÔÀÓ¸ğµå");
+		gmBorder = BorderFactory.createTitledBorder(gmBorder, "ê¸°ë³¸ ê²Œì„ëª¨ë“œ");
 		JPanel gmPanel = new JPanel();
 		gmPanel.setLayout(new GridLayout(0, 1));
 		gmPanel.setBorder(gmBorder);
 		gmPanel.setBounds(12, 468, 116, 115);
-		
-		JRadioButton survivalBtn = new JRadioButton("¼­¹ÙÀÌ¹ú");
-		JRadioButton creativeBtn = new JRadioButton("Å©¸®¿¡ÀÌÆ¼ºê");
-		JRadioButton adventureBtn = new JRadioButton("¸ğÇè");
-		JRadioButton spectatorBtn = new JRadioButton("°üÀüÀÚ");
-		
+
+		JRadioButton survivalBtn = new JRadioButton("ì„œë°”ì´ë²Œ");
+		JRadioButton creativeBtn = new JRadioButton("í¬ë¦¬ì—ì´í‹°ë¸Œ");
+		JRadioButton adventureBtn = new JRadioButton("ëª¨í—˜");
+		JRadioButton spectatorBtn = new JRadioButton("ê´€ì „ì");
+
 		ButtonGroup gmBtnGroup = new ButtonGroup();
 		gmBtnGroup.add(survivalBtn);
 		gmBtnGroup.add(creativeBtn);
 		gmBtnGroup.add(adventureBtn);
 		gmBtnGroup.add(spectatorBtn);
-		
+
 		int defaultGamemode = Server.getInstance().getDefaultGamemode();
 		if (defaultGamemode == Player.SURVIVAL) {
 			survivalBtn.setSelected(true);
@@ -218,104 +217,106 @@ public class SettingFrame extends JFrame {
 		} else if (defaultGamemode == Player.ADVENTURE) {
 			adventureBtn.setSelected(true);
 		}
-		
+
 		gmPanel.add(survivalBtn);
 		gmPanel.add(creativeBtn);
 		gmPanel.add(adventureBtn);
 		gmPanel.add(spectatorBtn);
-		
+
 		panel.add(gmPanel);
-		
+
 		JSeparator separator_5 = new JSeparator();
 		separator_5.setBounds(12, 593, 276, 2);
 		panel.add(separator_5);
-		
+
 		Border pvpBorder = BorderFactory.createEtchedBorder();
 		pvpBorder = BorderFactory.createTitledBorder(pvpBorder, "pvp");
 		JPanel pvpPanel = new JPanel();
 		pvpPanel.setLayout(new GridLayout(0, 1));
 		pvpPanel.setBorder(pvpBorder);
 		pvpPanel.setBounds(12, 605, 76, 69);
-		
-		JRadioButton pvpOnBtn = new JRadioButton("Çã¿ë");
-		JRadioButton pvpOffBtn = new JRadioButton("ºñÇã¿ë");
-		
+
+		JRadioButton pvpOnBtn = new JRadioButton("í—ˆìš©");
+		JRadioButton pvpOffBtn = new JRadioButton("ë¹„í—ˆìš©");
+
 		ButtonGroup pvpBtnGroup = new ButtonGroup();
 		pvpBtnGroup.add(pvpOnBtn);
 		pvpBtnGroup.add(pvpOffBtn);
-		
+
 		if (Server.getInstance().getPropertyBoolean("pvp") == true) {
 			pvpOnBtn.setSelected(true);
 		} else {
 			pvpOffBtn.setSelected(true);
 		}
-		
+
 		pvpPanel.add(pvpOnBtn);
 		pvpPanel.add(pvpOffBtn);
-		
+
 		panel.add(pvpPanel);
-		
+
 		JSeparator separator_6 = new JSeparator();
 		separator_6.setBounds(12, 684, 276, 2);
 		panel.add(separator_6);
-		
-		JButton btnPlayerlist = new JButton("ÇÃ·¹ÀÌ¾î ¸ñ·Ï");
+
+		JButton btnPlayerlist = new JButton("í”Œë ˆì´ì–´ ëª©ë¡");
 		btnPlayerlist.setBounds(12, 696, 131, 23);
 		panel.add(btnPlayerlist);
-		
-		JButton btnPlayerManage = new JButton("ÇÃ·¹ÀÌ¾î °ü¸®");
+
+		JButton btnPlayerManage = new JButton("í”Œë ˆì´ì–´ ê´€ë¦¬");
 		btnPlayerManage.setBounds(12, 727, 131, 23);
 		panel.add(btnPlayerManage);
-		
-		JButton btnSendmessage = new JButton("¸Ş¼¼Áö º¸³»±â");
+
+		JButton btnSendmessage = new JButton("ë©”ì„¸ì§€ ë³´ë‚´ê¸°");
 		btnSendmessage.setBounds(12, 760, 131, 23);
 		panel.add(btnSendmessage);
-		
+
 		getContentPane().add(scroll);
-		
-		
+
 		whitelistOn.addActionListener(e -> Server.getInstance().setPropertyBoolean("white-list", true));
 		whitelistOff.addActionListener(e -> Server.getInstance().setPropertyBoolean("white-list", false));
 		whitelistAddBtn.addActionListener(e -> {
 			Server.getInstance().addWhitelist(whitelistPlayerField.getText());
-			JOptionPane.showMessageDialog(null, whitelistPlayerField.getText() + "¸¦ È­ÀÌÆ®¸®½ºÆ®¿¡ Ãß°¡Çß½À´Ï´Ù.");
+			JOptionPane.showMessageDialog(null, whitelistPlayerField.getText() + "ë¥¼ í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í–ˆìŠµë‹ˆë‹¤.");
 		});
 		whitelistRmBtn.addActionListener(e -> {
 			Server.getInstance().removeWhitelist(whitelistPlayerField.getText());
-			JOptionPane.showMessageDialog(null, whitelistPlayerField.getText() + "¸¦ È­ÀÌÆ®¸®½ºÆ®¿¡¼­ Á¦°ÅÇß½À´Ï´Ù.");
+			JOptionPane.showMessageDialog(null, whitelistPlayerField.getText() + "ë¥¼ í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸ì—ì„œ ì œê±°í–ˆìŠµë‹ˆë‹¤.");
 		});
 		whitelistResetBtn.addActionListener(e -> {
-			int result = JOptionPane.showConfirmDialog(null, "Á¤¸»·Î È­ÀÌÆ®¸®½ºÆ®¸¦ ÃÊ±âÈ­ÇÏ½Ã°Ú½À´Ï±î?");
+			int result = JOptionPane.showConfirmDialog(null, "ì •ë§ë¡œ í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸ë¥¼ ì´ˆê¸°í™”í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 			if (result == JOptionPane.OK_OPTION) {
 				for (String player : Server.getInstance().getWhitelist().getAll().keySet()) {
 					Server.getInstance().removeWhitelist(player);
 				}
 			}
-			JOptionPane.showMessageDialog(null, "È­ÀÌÆ®¸®½ºÆ®¸¦ ÃÊ±âÈ­ Çß½À´Ï´Ù.");
+			JOptionPane.showMessageDialog(null, "í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸ë¥¼ ì´ˆê¸°í™” í–ˆìŠµë‹ˆë‹¤.");
 		});
 		whitelistBtn.addActionListener(e -> {
 			StringBuilder msg = new StringBuilder("");
-			Server.getInstance().getWhitelist().getAll().keySet().parallelStream().forEach(value -> msg.append(value + "\n"));
+			Server.getInstance().getWhitelist().getAll().keySet().parallelStream()
+					.forEach(value -> msg.append(value + "\n"));
 			JOptionPane.showMessageDialog(null, msg);
 		});
-		achievementOnBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("announce-player-achievements", true));
-		achievementOffBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("announce-player-achievements", false));
+		achievementOnBtn
+				.addActionListener(e -> Server.getInstance().setPropertyBoolean("announce-player-achievements", true));
+		achievementOffBtn
+				.addActionListener(e -> Server.getInstance().setPropertyBoolean("announce-player-achievements", false));
 		btnProtectionApply.addActionListener(e -> {
 			try {
 				int protection = Integer.parseInt(spawnProtectionField.getText());
 				Server.getInstance().setPropertyInt("spawn-protection", protection);
-				JOptionPane.showMessageDialog(null, "½ºÆù º¸È£ ¹üÀ§¸¦ " + protection + "À¸·Î ¼³Á¤Çß½À´Ï´Ù.");
+				JOptionPane.showMessageDialog(null, "ìŠ¤í° ë³´í˜¸ ë²”ìœ„ë¥¼ " + protection + "ìœ¼ë¡œ ì„¤ì •í–ˆìŠµë‹ˆë‹¤.");
 			} catch (NumberFormatException exception) {
-				JOptionPane.showMessageDialog(null, "¹üÀ§´Â Á¤¼ö¸¸ ÀÔ·Â °¡´ÉÇÕ´Ï´Ù.", "¿¡·¯", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "ë²”ìœ„ëŠ” ì •ìˆ˜ë§Œ ì…ë ¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.", "ì—ëŸ¬", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		maxPlayerApplybutton.addActionListener(e -> {
 			try {
 				int maxPlayers = Integer.parseInt(maxPlayerField.getText());
 				Server.getInstance().setPropertyInt("max-players", maxPlayers);
-				JOptionPane.showMessageDialog(null, "ÃÖ´ë ÇÃ·¹ÀÌ¾î¸¦ "+ maxPlayers + "·Î ¼³Á¤Çß½À´Ï´Ù.");
+				JOptionPane.showMessageDialog(null, "ìµœëŒ€ í”Œë ˆì´ì–´ë¥¼ " + maxPlayers + "ë¡œ ì„¤ì •í–ˆìŠµë‹ˆë‹¤.");
 			} catch (NumberFormatException exception) {
-				JOptionPane.showMessageDialog(null, "Á¤¼ö¸¸ ÀÔ·Â °¡´ÉÇÕ´Ï´Ù.", "¿¡·¯", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "ì •ìˆ˜ë§Œ ì…ë ¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.", "ì—ëŸ¬", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		flyAllowBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("allow-flight", true));
@@ -328,28 +329,30 @@ public class SettingFrame extends JFrame {
 		pvpOffBtn.addActionListener(e -> Server.getInstance().setPropertyBoolean("gamemode", false));
 		btnPlayerlist.addActionListener(event -> {
 			StringBuffer playerlist = new StringBuffer("");
-			Server.getInstance().getOnlinePlayers().forEach((uuid, player) -> playerlist.append(player.getName() + "\n"));
+			Server.getInstance().getOnlinePlayers()
+					.forEach((uuid, player) -> playerlist.append(player.getName() + "\n"));
 			JOptionPane.showMessageDialog(null, playerlist);
 		});
 		btnPlayerManage.addActionListener(event -> {
-			String name = JOptionPane.showInputDialog(null, "°ü¸®ÇÒ ÇÃ·¹ÀÌ¾î¸í ÀÔ·Â");
+			String name = JOptionPane.showInputDialog(null, "ê´€ë¦¬í•  í”Œë ˆì´ì–´ëª… ì…ë ¥");
 			if (name == null) {
 				return;
 			}
 			Player player = Server.getInstance().getPlayer(name);
 			if (player == null) {
-				JOptionPane.showMessageDialog(null, "ÀÌ ÇÃ·¹ÀÌ¾î´Â ¼­¹ö¿¡ Á¢¼ÓÁßÀÌ ¾Æ´Õ´Ï´Ù.", "¿¡·¯", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "ì´ í”Œë ˆì´ì–´ëŠ” ì„œë²„ì— ì ‘ì†ì¤‘ì´ ì•„ë‹™ë‹ˆë‹¤.", "ì—ëŸ¬", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			PlayerManageDialog dialog = new PlayerManageDialog(player);
 			dialog.setVisible(true);
 		});
 		btnSendmessage.addActionListener(event -> {
-			String msg = JOptionPane.showInputDialog("¼­¹ö¿øµé¿¡°Ô ÇÒ ¸»À» ÀÔ·ÂÇÏ¼¼¿ä.");
-			if (msg == null) msg = "";
-			Server.getInstance().broadcastMessage(new TranslationContainer(TextFormat.LIGHT_PURPLE + "%chat.type.announcement", new String[]{"¼­¹ö", msg}));
+			String msg = JOptionPane.showInputDialog("ì„œë²„ì›ë“¤ì—ê²Œ í•  ë§ì„ ì…ë ¥í•˜ì„¸ìš”.");
+			if (msg == null)
+				msg = "";
+			Server.getInstance().broadcastMessage(new TranslationContainer(
+					TextFormat.LIGHT_PURPLE + "%chat.type.announcement", new String[] { "ì„œë²„", msg }));
 		});
-		
 
 		setVisible(true);
 		pack();
